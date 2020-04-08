@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifeSharing.mapper.StoryCommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.lifeSharing.pojo.StoryComments" >
+    <id column="comments_code" property="commentsCode" jdbcType="VARCHAR" />
+    <result column="story_code" property="storyCode" jdbcType="VARCHAR" />
+    <result column="commentator_no" property="commentatorNo" jdbcType="VARCHAR" />
+    <result column="commentator_name" property="commentatorName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lifeSharing.pojo.StoryComments" extends="BaseResultMap" >
+    <result column="comments_context" property="commentsContext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comments_code, story_code, commentator_no, commentator_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    comments_context
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lifeSharing.pojo.StoryCommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from story_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryCommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from story_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from story_comments
+    where comments_code = #{commentsCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from story_comments
+    where comments_code = #{commentsCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lifeSharing.pojo.StoryCommentsExample" >
+    delete from story_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lifeSharing.pojo.StoryComments" >
+    insert into story_comments (comments_code, story_code, commentator_no, 
+      commentator_name, comments_context)
+    values (#{commentsCode,jdbcType=VARCHAR}, #{storyCode,jdbcType=VARCHAR}, #{commentatorNo,jdbcType=VARCHAR}, 
+      #{commentatorName,jdbcType=VARCHAR}, #{commentsContext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lifeSharing.pojo.StoryComments" >
+    insert into story_comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentsCode != null" >
+        comments_code,
+      </if>
+      <if test="storyCode != null" >
+        story_code,
+      </if>
+      <if test="commentatorNo != null" >
+        commentator_no,
+      </if>
+      <if test="commentatorName != null" >
+        commentator_name,
+      </if>
+      <if test="commentsContext != null" >
+        comments_context,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentsCode != null" >
+        #{commentsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storyCode != null" >
+        #{storyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorNo != null" >
+        #{commentatorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorName != null" >
+        #{commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsContext != null" >
+        #{commentsContext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lifeSharing.pojo.StoryCommentsExample" resultType="java.lang.Integer" >
+    select count(*) from story_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update story_comments
+    <set >
+      <if test="record.commentsCode != null" >
+        comments_code = #{record.commentsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storyCode != null" >
+        story_code = #{record.storyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentatorNo != null" >
+        commentator_no = #{record.commentatorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentatorName != null" >
+        commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentsContext != null" >
+        comments_context = #{record.commentsContext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update story_comments
+    set comments_code = #{record.commentsCode,jdbcType=VARCHAR},
+      story_code = #{record.storyCode,jdbcType=VARCHAR},
+      commentator_no = #{record.commentatorNo,jdbcType=VARCHAR},
+      commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
+      comments_context = #{record.commentsContext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update story_comments
+    set comments_code = #{record.commentsCode,jdbcType=VARCHAR},
+      story_code = #{record.storyCode,jdbcType=VARCHAR},
+      commentator_no = #{record.commentatorNo,jdbcType=VARCHAR},
+      commentator_name = #{record.commentatorName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lifeSharing.pojo.StoryComments" >
+    update story_comments
+    <set >
+      <if test="storyCode != null" >
+        story_code = #{storyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorNo != null" >
+        commentator_no = #{commentatorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorName != null" >
+        commentator_name = #{commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsContext != null" >
+        comments_context = #{commentsContext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comments_code = #{commentsCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lifeSharing.pojo.StoryComments" >
+    update story_comments
+    set story_code = #{storyCode,jdbcType=VARCHAR},
+      commentator_no = #{commentatorNo,jdbcType=VARCHAR},
+      commentator_name = #{commentatorName,jdbcType=VARCHAR},
+      comments_context = #{commentsContext,jdbcType=LONGVARCHAR}
+    where comments_code = #{commentsCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lifeSharing.pojo.StoryComments" >
+    update story_comments
+    set story_code = #{storyCode,jdbcType=VARCHAR},
+      commentator_no = #{commentatorNo,jdbcType=VARCHAR},
+      commentator_name = #{commentatorName,jdbcType=VARCHAR}
+    where comments_code = #{commentsCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

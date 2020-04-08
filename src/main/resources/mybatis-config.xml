@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="logImpl" value="log4j" />
+    </settings>
+
+    <!--设置实体别名-->
+    <!--
+    <typeAliases>
+        <typeAlias type="com.lifeSharing.pojo.StoryComments" alias="StoryComments"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryCommentsExample" alias="StoryCommentsExample"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryInformation" alias="StoryInformation"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryInformationExample" alias="StoryInformationExample"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryInformationHis" alias="StoryInformationHis"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryInformationHisExample" alias="StoryComments"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryInformationKey" alias="StoryInformationKey"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryReply" alias="StoryReply"/>
+        <typeAlias type="com.lifeSharing.pojo.StoryReplyExample" alias="StoryReplyExample"/>
+        <typeAlias type="com.lifeSharing.pojo.UserConnection" alias="UserConnection"/>
+        <typeAlias type="com.lifeSharing.pojo.UserConnectionExample" alias="UserConnectionExample"/>
+        <typeAlias type="com.lifeSharing.pojo.UserConnectionKey" alias="UserConnectionKey"/>
+        <typeAlias type="com.lifeSharing.pojo.UserInformation" alias="UserInformation"/>
+        <typeAlias type="com.lifeSharing.pojo.UserInformationExample" alias="UserInformationExample"/>
+        <typeAlias type="com.lifeSharing.pojo.UserStory" alias="UserStory"/>
+        <typeAlias type="com.lifeSharing.pojo.UserStoryExample" alias="UserStoryExample"/>
+        <typeAlias type="com.lifeSharing.pojo.UserStoryKey" alias="UserStoryKey"/>
+    </typeAliases>
+    -->
+
+    <!--映射文件的设置 -->
+    <mappers>
+        <mapper resource="mapper/StoryCommentsMapper.xml"/>
+        <mapper resource="mapper/StoryInformationHisMapper.xml"/>
+        <mapper resource="mapper/StoryInformationMapper.xml"/>
+        <mapper resource="mapper/StoryReplyMapper.xml"/>
+        <mapper resource="mapper/UserConnectionMapper.xml"/>
+        <mapper resource="mapper/UserInformationMapper.xml"/>
+        <mapper resource="mapper/UserStoryMapper.xml"/>
+    </mappers>
+</configuration>

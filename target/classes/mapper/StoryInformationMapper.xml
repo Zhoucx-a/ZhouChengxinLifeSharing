@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lifeSharing.mapper.StoryInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.lifeSharing.pojo.StoryInformation" >
+    <id column="story_code" property="storyCode" jdbcType="VARCHAR" />
+    <id column="user_no" property="userNo" jdbcType="VARCHAR" />
+    <result column="story_context" property="storyContext" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="like_count" property="likeCount" jdbcType="INTEGER" />
+    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    story_code, user_no, story_context, publish_time, like_count, photo_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryInformationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from story_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryInformationKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from story_information
+    where story_code = #{storyCode,jdbcType=VARCHAR}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lifeSharing.pojo.StoryInformationKey" >
+    delete from story_information
+    where story_code = #{storyCode,jdbcType=VARCHAR}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lifeSharing.pojo.StoryInformationExample" >
+    delete from story_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lifeSharing.pojo.StoryInformation" >
+    insert into story_information (story_code, user_no, story_context, 
+      publish_time, like_count, photo_url
+      )
+    values (#{storyCode,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{storyContext,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP}, #{likeCount,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lifeSharing.pojo.StoryInformation" >
+    insert into story_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="storyCode != null" >
+        story_code,
+      </if>
+      <if test="userNo != null" >
+        user_no,
+      </if>
+      <if test="storyContext != null" >
+        story_context,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="likeCount != null" >
+        like_count,
+      </if>
+      <if test="photoUrl != null" >
+        photo_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="storyCode != null" >
+        #{storyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storyContext != null" >
+        #{storyContext,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="likeCount != null" >
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="photoUrl != null" >
+        #{photoUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lifeSharing.pojo.StoryInformationExample" resultType="java.lang.Integer" >
+    select count(*) from story_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update story_information
+    <set >
+      <if test="record.storyCode != null" >
+        story_code = #{record.storyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNo != null" >
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storyContext != null" >
+        story_context = #{record.storyContext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishTime != null" >
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.likeCount != null" >
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.photoUrl != null" >
+        photo_url = #{record.photoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update story_information
+    set story_code = #{record.storyCode,jdbcType=VARCHAR},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      story_context = #{record.storyContext,jdbcType=VARCHAR},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      photo_url = #{record.photoUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lifeSharing.pojo.StoryInformation" >
+    update story_information
+    <set >
+      <if test="storyContext != null" >
+        story_context = #{storyContext,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="likeCount != null" >
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="photoUrl != null" >
+        photo_url = #{photoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where story_code = #{storyCode,jdbcType=VARCHAR}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lifeSharing.pojo.StoryInformation" >
+    update story_information
+    set story_context = #{storyContext,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      photo_url = #{photoUrl,jdbcType=VARCHAR}
+    where story_code = #{storyCode,jdbcType=VARCHAR}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

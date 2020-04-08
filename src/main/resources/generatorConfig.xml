@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="D:\maven-repository\mysql\mysql-connector-java\5.1.6\mysql-connector-java-5.1.6.jar"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"></property>
+        </commentGenerator>
+
+        <!-- 设定数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/lifeSharing"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 生成 bean 存放的位置 -->
+        <javaModelGenerator targetPackage="com.lifeSharing.pojo"
+                            targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成的mapper文件的位置 -->
+        <sqlMapGenerator targetPackage="resources.mapper"
+                         targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 生成的mapper.xml 对应的那个mapper接口的存放位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.lifeSharing.mapper" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 设定反向生成的表 -->
+        <table tableName="story_comments"></table>
+        <table tableName="story_information"></table>
+        <table tableName="story_information_his"></table>
+        <table tableName="story_reply"></table>
+        <table tableName="user_connection"></table>
+        <table tableName="user_information"></table>
+        <table tableName="user_story"></table>
+    </context>
+</generatorConfiguration>
