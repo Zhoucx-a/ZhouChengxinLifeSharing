@@ -18,7 +18,7 @@
     <!-- spring版本号 -->
     <spring.version>4.3.3.RELEASE</spring.version>
     <!-- jackson版本号 -->
-    <jackson.version>2.6.6</jackson.version>
+    <jackson.version>2.10.3</jackson.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
