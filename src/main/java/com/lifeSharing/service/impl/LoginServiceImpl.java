@@ -1,6 +1,7 @@
 package com.lifeSharing.service.impl;
 
 import com.lifeSharing.mapper.UserInformationMapper;
+import com.lifeSharing.params.login.CheckTelParamIn;
 import com.lifeSharing.params.login.LoginParamIn;
 import com.lifeSharing.params.login.RegisterParamIn;
 import com.lifeSharing.params.login.ResetParamIn;
@@ -49,14 +50,15 @@ public class LoginServiceImpl implements LoginService {
         UserInformationExample userInformationExample = new UserInformationExample();
         userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
         int count = userInformationMapper.countByExample(userInformationExample);
+        //判断用户名是否存在
         if(count == 0){
             myResult.setCode(1);
             myResult.setMsg("用户不存在！");
             return myResult;
         }
-        String password = userInformationMapper
-                .selectByPrimaryKey(in.getUserNo())
-                .getPassword();
+        //判断密码是否正确
+        UserInformation userInformation = userInformationMapper.selectByPrimaryKey(in.getUserNo());
+        String password = userInformation.getPassword();
         if(!password.equals(in.getPassword())){
             myResult.setCode(2);
             myResult.setMsg("密码不正确！");
@@ -64,6 +66,7 @@ public class LoginServiceImpl implements LoginService {
         }
         myResult.setCode(0);
         myResult.setMsg("登陆成功！");
+        myResult.setObj(userInformation.getUserName());
         return myResult;
     }
 
@@ -76,13 +79,6 @@ public class LoginServiceImpl implements LoginService {
         //条件拼接
         UserInformationExample userInformationExample = new UserInformationExample();
         userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
-        //TEL验证
-        String tel = userInformationMapper.selectByPrimaryKey(in.getUserNo()).getTel();
-        if(!tel.equals(in.getTel())){
-            myResult.setCode(2);
-            myResult.setMsg("验证失败!");
-            return myResult;
-        }
         //重置密码
         UserInformation userInformation = new UserInformation();
         userInformation.setPassword(in.getPassword());
@@ -96,5 +92,20 @@ public class LoginServiceImpl implements LoginService {
             myResult.setMsg("重置密码成功！");
             return myResult;
         }
+    }
+
+    @Override
+    public MyResult checkTel(CheckTelParamIn in) {
+        MyResult myResult = new MyResult();
+        String tel =  userInformationMapper.selectByPrimaryKey(in.getUserNo()).getTel();
+        //电话比较
+        if(!tel.equals(in.getTel())){
+            myResult.setCode(1);
+            myResult.setMsg("校验未通过！");
+            return myResult;
+        }
+        myResult.setCode(0);
+        myResult.setMsg("校验通过！");
+        return myResult;
     }
 }

@@ -1,5 +1,6 @@
 package com.lifeSharing.service.inter;
 
+import com.lifeSharing.params.login.CheckTelParamIn;
 import com.lifeSharing.params.login.LoginParamIn;
 import com.lifeSharing.params.login.RegisterParamIn;
 import com.lifeSharing.params.login.ResetParamIn;
@@ -11,4 +12,6 @@ public interface LoginService {
     public MyResult loginInUser(LoginParamIn in);
 
     public MyResult resetPassword(ResetParamIn in);
+
+    public MyResult checkTel(CheckTelParamIn in);
 }
