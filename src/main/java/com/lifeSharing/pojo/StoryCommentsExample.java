@@ -383,6 +383,76 @@ public class StoryCommentsExample {
             addCriterion("commentator_name not between", value1, value2, "commentatorName");
             return (Criteria) this;
         }
+
+        public Criteria andCommentsContextIsNull() {
+            addCriterion("comments_context is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextIsNotNull() {
+            addCriterion("comments_context is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextEqualTo(String value) {
+            addCriterion("comments_context =", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextNotEqualTo(String value) {
+            addCriterion("comments_context <>", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextGreaterThan(String value) {
+            addCriterion("comments_context >", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextGreaterThanOrEqualTo(String value) {
+            addCriterion("comments_context >=", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextLessThan(String value) {
+            addCriterion("comments_context <", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextLessThanOrEqualTo(String value) {
+            addCriterion("comments_context <=", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextLike(String value) {
+            addCriterion("comments_context like", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextNotLike(String value) {
+            addCriterion("comments_context not like", value, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextIn(List<String> values) {
+            addCriterion("comments_context in", values, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextNotIn(List<String> values) {
+            addCriterion("comments_context not in", values, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextBetween(String value1, String value2) {
+            addCriterion("comments_context between", value1, value2, "commentsContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentsContextNotBetween(String value1, String value2) {
+            addCriterion("comments_context not between", value1, value2, "commentsContext");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -16,21 +16,15 @@ public interface StoryCommentsMapper {
 
     int insertSelective(StoryComments record);
 
-    List<StoryComments> selectByExampleWithBLOBs(StoryCommentsExample example);
-
     List<StoryComments> selectByExample(StoryCommentsExample example);
 
     StoryComments selectByPrimaryKey(String commentsCode);
 
     int updateByExampleSelective(@Param("record") StoryComments record, @Param("example") StoryCommentsExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") StoryComments record, @Param("example") StoryCommentsExample example);
-
     int updateByExample(@Param("record") StoryComments record, @Param("example") StoryCommentsExample example);
 
     int updateByPrimaryKeySelective(StoryComments record);
-
-    int updateByPrimaryKeyWithBLOBs(StoryComments record);
 
     int updateByPrimaryKey(StoryComments record);
 }

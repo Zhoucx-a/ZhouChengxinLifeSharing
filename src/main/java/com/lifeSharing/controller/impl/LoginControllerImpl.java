@@ -1,10 +1,8 @@
 package com.lifeSharing.controller.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.lifeSharing.controller.inter.LoginController;
-import com.lifeSharing.params.login.CheckTelParamIn;
-import com.lifeSharing.params.login.LoginParamIn;
-import com.lifeSharing.params.login.RegisterParamIn;
-import com.lifeSharing.params.login.ResetParamIn;
+import com.lifeSharing.params.login.*;
 import com.lifeSharing.service.inter.LoginService;
 import com.lifeSharing.toolsUtil.MyResult;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @Slf4j
 @Controller
@@ -42,14 +38,29 @@ public class LoginControllerImpl implements LoginController {
     @Override
     @PostMapping("/loginInUser")
     @ResponseBody
-    public MyResult loginInUser(@RequestBody LoginParamIn in, HttpSession session) {
-        MyResult myResult = loginService.loginInUser(in);
-        //用户id以及用户姓名存储到session中
-        if(myResult.getCode() == 0){
-            session.setAttribute("userNo",in.getUserNo());
-            session.setAttribute("userName",myResult.getObj());
+    public LoginInParamOut loginInUser(@RequestBody LoginParamIn in, HttpSession session) {
+        LoginInParamOut myResult = new LoginInParamOut();
+        //判断验证码是否一致
+        String validateCode = session.getAttribute("RANDOMKEY").toString();
+        if (!StringUtils.isEmpty(validateCode)){
+            if (!validateCode.equals(in.getValidateCode())) {
+                myResult.setCode(3);
+                myResult.setMsg("验证码不正确！");
+                return myResult;
+            }
+            LoginInParamOut myResult1 = loginService.loginInUser(in);
+            //用户id以及用户姓名存储到session中
+            if(myResult1.getCode() == 0){
+                session.setAttribute("userNo",myResult1.getUserNo());
+                session.setAttribute("userName",myResult1.getUserName());
+                session.setAttribute("loginType",myResult1.getLoginType());
+            }
+            return myResult1;
         }
+        myResult.setCode(4);
+        myResult.setMsg("输入的验证码为空！");
         return myResult;
+
     }
 
     /*
@@ -70,5 +81,16 @@ public class LoginControllerImpl implements LoginController {
     @ResponseBody
     public MyResult checkTel(@RequestBody CheckTelParamIn in) {
         return loginService.checkTel(in);
+    }
+
+
+    /*
+     *  用户ID校验
+     */
+    @Override
+    @PostMapping("/checkUserNo")
+    @ResponseBody
+    public MyResult checkUserNo(@RequestBody CheckUserNoParamIn in) {
+        return loginService.checkUserNO(in);
     }
 }

@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.lifeSharing.pojo.UserConnection" >
     <id column="user_no" property="userNo" jdbcType="VARCHAR" />
     <id column="focus_no" property="focusNo" jdbcType="VARCHAR" />
-    <result column="foucs_name" property="foucsName" jdbcType="VARCHAR" />
+    <result column="focus_name" property="focusName" jdbcType="VARCHAR" />
     <result column="is_special_focus" property="isSpecialFocus" jdbcType="VARCHAR" />
-    <result column="foucs_time" property="foucsTime" jdbcType="TIMESTAMP" />
+    <result column="focus_time" property="focusTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_no, focus_no, foucs_name, is_special_focus, foucs_time, remark
+    user_no, focus_no, focus_name, is_special_focus, focus_time, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.UserConnectionExample" >
     select
@@ -103,11 +103,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.lifeSharing.pojo.UserConnection" >
-    insert into user_connection (user_no, focus_no, foucs_name, 
-      is_special_focus, foucs_time, remark
+    insert into user_connection (user_no, focus_no, focus_name, 
+      is_special_focus, focus_time, remark
       )
-    values (#{userNo,jdbcType=VARCHAR}, #{focusNo,jdbcType=VARCHAR}, #{foucsName,jdbcType=VARCHAR}, 
-      #{isSpecialFocus,jdbcType=VARCHAR}, #{foucsTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+    values (#{userNo,jdbcType=VARCHAR}, #{focusNo,jdbcType=VARCHAR}, #{focusName,jdbcType=VARCHAR}, 
+      #{isSpecialFocus,jdbcType=VARCHAR}, #{focusTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lifeSharing.pojo.UserConnection" >
@@ -119,14 +119,14 @@
       <if test="focusNo != null" >
         focus_no,
       </if>
-      <if test="foucsName != null" >
-        foucs_name,
+      <if test="focusName != null" >
+        focus_name,
       </if>
       <if test="isSpecialFocus != null" >
         is_special_focus,
       </if>
-      <if test="foucsTime != null" >
-        foucs_time,
+      <if test="focusTime != null" >
+        focus_time,
       </if>
       <if test="remark != null" >
         remark,
@@ -139,14 +139,14 @@
       <if test="focusNo != null" >
         #{focusNo,jdbcType=VARCHAR},
       </if>
-      <if test="foucsName != null" >
-        #{foucsName,jdbcType=VARCHAR},
+      <if test="focusName != null" >
+        #{focusName,jdbcType=VARCHAR},
       </if>
       <if test="isSpecialFocus != null" >
         #{isSpecialFocus,jdbcType=VARCHAR},
       </if>
-      <if test="foucsTime != null" >
-        #{foucsTime,jdbcType=TIMESTAMP},
+      <if test="focusTime != null" >
+        #{focusTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -168,14 +168,14 @@
       <if test="record.focusNo != null" >
         focus_no = #{record.focusNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.foucsName != null" >
-        foucs_name = #{record.foucsName,jdbcType=VARCHAR},
+      <if test="record.focusName != null" >
+        focus_name = #{record.focusName,jdbcType=VARCHAR},
       </if>
       <if test="record.isSpecialFocus != null" >
         is_special_focus = #{record.isSpecialFocus,jdbcType=VARCHAR},
       </if>
-      <if test="record.foucsTime != null" >
-        foucs_time = #{record.foucsTime,jdbcType=TIMESTAMP},
+      <if test="record.focusTime != null" >
+        focus_time = #{record.focusTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -189,9 +189,9 @@
     update user_connection
     set user_no = #{record.userNo,jdbcType=VARCHAR},
       focus_no = #{record.focusNo,jdbcType=VARCHAR},
-      foucs_name = #{record.foucsName,jdbcType=VARCHAR},
+      focus_name = #{record.focusName,jdbcType=VARCHAR},
       is_special_focus = #{record.isSpecialFocus,jdbcType=VARCHAR},
-      foucs_time = #{record.foucsTime,jdbcType=TIMESTAMP},
+      focus_time = #{record.focusTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,14 +200,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lifeSharing.pojo.UserConnection" >
     update user_connection
     <set >
-      <if test="foucsName != null" >
-        foucs_name = #{foucsName,jdbcType=VARCHAR},
+      <if test="focusName != null" >
+        focus_name = #{focusName,jdbcType=VARCHAR},
       </if>
       <if test="isSpecialFocus != null" >
         is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR},
       </if>
-      <if test="foucsTime != null" >
-        foucs_time = #{foucsTime,jdbcType=TIMESTAMP},
+      <if test="focusTime != null" >
+        focus_time = #{focusTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -218,9 +218,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lifeSharing.pojo.UserConnection" >
     update user_connection
-    set foucs_name = #{foucsName,jdbcType=VARCHAR},
+    set focus_name = #{focusName,jdbcType=VARCHAR},
       is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR},
-      foucs_time = #{foucsTime,jdbcType=TIMESTAMP},
+      focus_time = #{focusTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where user_no = #{userNo,jdbcType=VARCHAR}
       and focus_no = #{focusNo,jdbcType=VARCHAR}

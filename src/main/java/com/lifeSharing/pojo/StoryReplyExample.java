@@ -314,6 +314,76 @@ public class StoryReplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andReplyContextIsNull() {
+            addCriterion("reply_context is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextIsNotNull() {
+            addCriterion("reply_context is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextEqualTo(String value) {
+            addCriterion("reply_context =", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextNotEqualTo(String value) {
+            addCriterion("reply_context <>", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextGreaterThan(String value) {
+            addCriterion("reply_context >", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextGreaterThanOrEqualTo(String value) {
+            addCriterion("reply_context >=", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextLessThan(String value) {
+            addCriterion("reply_context <", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextLessThanOrEqualTo(String value) {
+            addCriterion("reply_context <=", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextLike(String value) {
+            addCriterion("reply_context like", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextNotLike(String value) {
+            addCriterion("reply_context not like", value, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextIn(List<String> values) {
+            addCriterion("reply_context in", values, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextNotIn(List<String> values) {
+            addCriterion("reply_context not in", values, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextBetween(String value1, String value2) {
+            addCriterion("reply_context between", value1, value2, "replyContext");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyContextNotBetween(String value1, String value2) {
+            addCriterion("reply_context not between", value1, value2, "replyContext");
+            return (Criteria) this;
+        }
+
         public Criteria andReplierNoIsNull() {
             addCriterion("replier_no is null");
             return (Criteria) this;

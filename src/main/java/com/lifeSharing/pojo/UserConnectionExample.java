@@ -245,73 +245,73 @@ public class UserConnectionExample {
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameIsNull() {
-            addCriterion("foucs_name is null");
+        public Criteria andFocusNameIsNull() {
+            addCriterion("focus_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameIsNotNull() {
-            addCriterion("foucs_name is not null");
+        public Criteria andFocusNameIsNotNull() {
+            addCriterion("focus_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameEqualTo(String value) {
-            addCriterion("foucs_name =", value, "foucsName");
+        public Criteria andFocusNameEqualTo(String value) {
+            addCriterion("focus_name =", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameNotEqualTo(String value) {
-            addCriterion("foucs_name <>", value, "foucsName");
+        public Criteria andFocusNameNotEqualTo(String value) {
+            addCriterion("focus_name <>", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameGreaterThan(String value) {
-            addCriterion("foucs_name >", value, "foucsName");
+        public Criteria andFocusNameGreaterThan(String value) {
+            addCriterion("focus_name >", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameGreaterThanOrEqualTo(String value) {
-            addCriterion("foucs_name >=", value, "foucsName");
+        public Criteria andFocusNameGreaterThanOrEqualTo(String value) {
+            addCriterion("focus_name >=", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameLessThan(String value) {
-            addCriterion("foucs_name <", value, "foucsName");
+        public Criteria andFocusNameLessThan(String value) {
+            addCriterion("focus_name <", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameLessThanOrEqualTo(String value) {
-            addCriterion("foucs_name <=", value, "foucsName");
+        public Criteria andFocusNameLessThanOrEqualTo(String value) {
+            addCriterion("focus_name <=", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameLike(String value) {
-            addCriterion("foucs_name like", value, "foucsName");
+        public Criteria andFocusNameLike(String value) {
+            addCriterion("focus_name like", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameNotLike(String value) {
-            addCriterion("foucs_name not like", value, "foucsName");
+        public Criteria andFocusNameNotLike(String value) {
+            addCriterion("focus_name not like", value, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameIn(List<String> values) {
-            addCriterion("foucs_name in", values, "foucsName");
+        public Criteria andFocusNameIn(List<String> values) {
+            addCriterion("focus_name in", values, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameNotIn(List<String> values) {
-            addCriterion("foucs_name not in", values, "foucsName");
+        public Criteria andFocusNameNotIn(List<String> values) {
+            addCriterion("focus_name not in", values, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameBetween(String value1, String value2) {
-            addCriterion("foucs_name between", value1, value2, "foucsName");
+        public Criteria andFocusNameBetween(String value1, String value2) {
+            addCriterion("focus_name between", value1, value2, "focusName");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsNameNotBetween(String value1, String value2) {
-            addCriterion("foucs_name not between", value1, value2, "foucsName");
+        public Criteria andFocusNameNotBetween(String value1, String value2) {
+            addCriterion("focus_name not between", value1, value2, "focusName");
             return (Criteria) this;
         }
 
@@ -385,63 +385,63 @@ public class UserConnectionExample {
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeIsNull() {
-            addCriterion("foucs_time is null");
+        public Criteria andFocusTimeIsNull() {
+            addCriterion("focus_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeIsNotNull() {
-            addCriterion("foucs_time is not null");
+        public Criteria andFocusTimeIsNotNull() {
+            addCriterion("focus_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeEqualTo(Date value) {
-            addCriterion("foucs_time =", value, "foucsTime");
+        public Criteria andFocusTimeEqualTo(Date value) {
+            addCriterion("focus_time =", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeNotEqualTo(Date value) {
-            addCriterion("foucs_time <>", value, "foucsTime");
+        public Criteria andFocusTimeNotEqualTo(Date value) {
+            addCriterion("focus_time <>", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeGreaterThan(Date value) {
-            addCriterion("foucs_time >", value, "foucsTime");
+        public Criteria andFocusTimeGreaterThan(Date value) {
+            addCriterion("focus_time >", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("foucs_time >=", value, "foucsTime");
+        public Criteria andFocusTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("focus_time >=", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeLessThan(Date value) {
-            addCriterion("foucs_time <", value, "foucsTime");
+        public Criteria andFocusTimeLessThan(Date value) {
+            addCriterion("focus_time <", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeLessThanOrEqualTo(Date value) {
-            addCriterion("foucs_time <=", value, "foucsTime");
+        public Criteria andFocusTimeLessThanOrEqualTo(Date value) {
+            addCriterion("focus_time <=", value, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeIn(List<Date> values) {
-            addCriterion("foucs_time in", values, "foucsTime");
+        public Criteria andFocusTimeIn(List<Date> values) {
+            addCriterion("focus_time in", values, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeNotIn(List<Date> values) {
-            addCriterion("foucs_time not in", values, "foucsTime");
+        public Criteria andFocusTimeNotIn(List<Date> values) {
+            addCriterion("focus_time not in", values, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeBetween(Date value1, Date value2) {
-            addCriterion("foucs_time between", value1, value2, "foucsTime");
+        public Criteria andFocusTimeBetween(Date value1, Date value2) {
+            addCriterion("focus_time between", value1, value2, "focusTime");
             return (Criteria) this;
         }
 
-        public Criteria andFoucsTimeNotBetween(Date value1, Date value2) {
-            addCriterion("foucs_time not between", value1, value2, "foucsTime");
+        public Criteria andFocusTimeNotBetween(Date value1, Date value2) {
+            addCriterion("focus_time not between", value1, value2, "focusTime");
             return (Criteria) this;
         }
 

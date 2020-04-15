@@ -6,9 +6,7 @@
     <result column="story_code" property="storyCode" jdbcType="VARCHAR" />
     <result column="commentator_no" property="commentatorNo" jdbcType="VARCHAR" />
     <result column="commentator_name" property="commentatorName" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lifeSharing.pojo.StoryComments" extends="BaseResultMap" >
-    <result column="comments_context" property="commentsContext" jdbcType="LONGVARCHAR" />
+    <result column="comments_context" property="commentsContext" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,27 +67,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    comments_code, story_code, commentator_no, commentator_name
+    comments_code, story_code, commentator_no, commentator_name, comments_context
   </sql>
-  <sql id="Blob_Column_List" >
-    comments_context
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lifeSharing.pojo.StoryCommentsExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from story_comments
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryCommentsExample" >
     select
     <if test="distinct" >
@@ -104,11 +83,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from story_comments
     where comments_code = #{commentsCode,jdbcType=VARCHAR}
   </select>
@@ -126,7 +103,7 @@
     insert into story_comments (comments_code, story_code, commentator_no, 
       commentator_name, comments_context)
     values (#{commentsCode,jdbcType=VARCHAR}, #{storyCode,jdbcType=VARCHAR}, #{commentatorNo,jdbcType=VARCHAR}, 
-      #{commentatorName,jdbcType=VARCHAR}, #{commentsContext,jdbcType=LONGVARCHAR})
+      #{commentatorName,jdbcType=VARCHAR}, #{commentsContext,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lifeSharing.pojo.StoryComments" >
     insert into story_comments
@@ -161,7 +138,7 @@
         #{commentatorName,jdbcType=VARCHAR},
       </if>
       <if test="commentsContext != null" >
-        #{commentsContext,jdbcType=LONGVARCHAR},
+        #{commentsContext,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -187,20 +164,9 @@
         commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
       </if>
       <if test="record.commentsContext != null" >
-        comments_context = #{record.commentsContext,jdbcType=LONGVARCHAR},
+        comments_context = #{record.commentsContext,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update story_comments
-    set comments_code = #{record.commentsCode,jdbcType=VARCHAR},
-      story_code = #{record.storyCode,jdbcType=VARCHAR},
-      commentator_no = #{record.commentatorNo,jdbcType=VARCHAR},
-      commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
-      comments_context = #{record.commentsContext,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -210,7 +176,8 @@
     set comments_code = #{record.commentsCode,jdbcType=VARCHAR},
       story_code = #{record.storyCode,jdbcType=VARCHAR},
       commentator_no = #{record.commentatorNo,jdbcType=VARCHAR},
-      commentator_name = #{record.commentatorName,jdbcType=VARCHAR}
+      commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
+      comments_context = #{record.commentsContext,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -228,24 +195,17 @@
         commentator_name = #{commentatorName,jdbcType=VARCHAR},
       </if>
       <if test="commentsContext != null" >
-        comments_context = #{commentsContext,jdbcType=LONGVARCHAR},
+        comments_context = #{commentsContext,jdbcType=VARCHAR},
       </if>
     </set>
-    where comments_code = #{commentsCode,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lifeSharing.pojo.StoryComments" >
-    update story_comments
-    set story_code = #{storyCode,jdbcType=VARCHAR},
-      commentator_no = #{commentatorNo,jdbcType=VARCHAR},
-      commentator_name = #{commentatorName,jdbcType=VARCHAR},
-      comments_context = #{commentsContext,jdbcType=LONGVARCHAR}
     where comments_code = #{commentsCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lifeSharing.pojo.StoryComments" >
     update story_comments
     set story_code = #{storyCode,jdbcType=VARCHAR},
       commentator_no = #{commentatorNo,jdbcType=VARCHAR},
-      commentator_name = #{commentatorName,jdbcType=VARCHAR}
+      commentator_name = #{commentatorName,jdbcType=VARCHAR},
+      comments_context = #{commentsContext,jdbcType=VARCHAR}
     where comments_code = #{commentsCode,jdbcType=VARCHAR}
   </update>
 </mapper>

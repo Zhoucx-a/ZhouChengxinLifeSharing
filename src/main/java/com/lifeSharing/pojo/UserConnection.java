@@ -3,20 +3,20 @@ package com.lifeSharing.pojo;
 import java.util.Date;
 
 public class UserConnection extends UserConnectionKey {
-    private String foucsName;
+    private String focusName;
 
     private String isSpecialFocus;
 
-    private Date foucsTime;
+    private Date focusTime;
 
     private String remark;
 
-    public String getFoucsName() {
-        return foucsName;
+    public String getFocusName() {
+        return focusName;
     }
 
-    public void setFoucsName(String foucsName) {
-        this.foucsName = foucsName == null ? null : foucsName.trim();
+    public void setFocusName(String focusName) {
+        this.focusName = focusName == null ? null : focusName.trim();
     }
 
     public String getIsSpecialFocus() {
@@ -27,12 +27,12 @@ public class UserConnection extends UserConnectionKey {
         this.isSpecialFocus = isSpecialFocus == null ? null : isSpecialFocus.trim();
     }
 
-    public Date getFoucsTime() {
-        return foucsTime;
+    public Date getFocusTime() {
+        return focusTime;
     }
 
-    public void setFoucsTime(Date foucsTime) {
-        this.foucsTime = foucsTime;
+    public void setFocusTime(Date focusTime) {
+        this.focusTime = focusTime;
     }
 
     public String getRemark() {

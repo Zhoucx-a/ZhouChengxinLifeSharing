@@ -7,6 +7,8 @@ public class StoryReply {
 
     private String replyToId;
 
+    private String replyContext;
+
     private String replierNo;
 
     private String replierName;
@@ -16,8 +18,6 @@ public class StoryReply {
     private String toId;
 
     private String toName;
-
-    private String replyContext;
 
     public String getReplyCode() {
         return replyCode;
@@ -41,6 +41,14 @@ public class StoryReply {
 
     public void setReplyToId(String replyToId) {
         this.replyToId = replyToId == null ? null : replyToId.trim();
+    }
+
+    public String getReplyContext() {
+        return replyContext;
+    }
+
+    public void setReplyContext(String replyContext) {
+        this.replyContext = replyContext == null ? null : replyContext.trim();
     }
 
     public String getReplierNo() {
@@ -81,13 +89,5 @@ public class StoryReply {
 
     public void setToName(String toName) {
         this.toName = toName == null ? null : toName.trim();
-    }
-
-    public String getReplyContext() {
-        return replyContext;
-    }
-
-    public void setReplyContext(String replyContext) {
-        this.replyContext = replyContext == null ? null : replyContext.trim();
     }
 }

@@ -3,11 +3,6 @@ package com.lifeSharing.params.login;
 import lombok.Data;
 
 @Data
-public class LoginParamIn {
-
+public class CheckUserNoParamIn {
     private String userNo;
-
-    private String password;
-
-    private String validateCode;
 }

@@ -5,14 +5,12 @@
     <id column="reply_code" property="replyCode" jdbcType="VARCHAR" />
     <result column="comments_code" property="commentsCode" jdbcType="VARCHAR" />
     <result column="reply_to_id" property="replyToId" jdbcType="VARCHAR" />
+    <result column="reply_context" property="replyContext" jdbcType="VARCHAR" />
     <result column="replier_no" property="replierNo" jdbcType="VARCHAR" />
     <result column="replier_name" property="replierName" jdbcType="VARCHAR" />
     <result column="reply_type" property="replyType" jdbcType="VARCHAR" />
     <result column="to_id" property="toId" jdbcType="VARCHAR" />
     <result column="to_name" property="toName" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lifeSharing.pojo.StoryReply" extends="BaseResultMap" >
-    <result column="reply_context" property="replyContext" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,28 +71,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    reply_code, comments_code, reply_to_id, replier_no, replier_name, reply_type, to_id, 
-    to_name
+    reply_code, comments_code, reply_to_id, reply_context, replier_no, replier_name, 
+    reply_type, to_id, to_name
   </sql>
-  <sql id="Blob_Column_List" >
-    reply_context
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lifeSharing.pojo.StoryReplyExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from story_reply
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryReplyExample" >
     select
     <if test="distinct" >
@@ -109,11 +88,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from story_reply
     where reply_code = #{replyCode,jdbcType=VARCHAR}
   </select>
@@ -129,12 +106,12 @@
   </delete>
   <insert id="insert" parameterType="com.lifeSharing.pojo.StoryReply" >
     insert into story_reply (reply_code, comments_code, reply_to_id, 
-      replier_no, replier_name, reply_type, 
-      to_id, to_name, reply_context
+      reply_context, replier_no, replier_name, 
+      reply_type, to_id, to_name
       )
     values (#{replyCode,jdbcType=VARCHAR}, #{commentsCode,jdbcType=VARCHAR}, #{replyToId,jdbcType=VARCHAR}, 
-      #{replierNo,jdbcType=VARCHAR}, #{replierName,jdbcType=VARCHAR}, #{replyType,jdbcType=VARCHAR}, 
-      #{toId,jdbcType=VARCHAR}, #{toName,jdbcType=VARCHAR}, #{replyContext,jdbcType=LONGVARCHAR}
+      #{replyContext,jdbcType=VARCHAR}, #{replierNo,jdbcType=VARCHAR}, #{replierName,jdbcType=VARCHAR}, 
+      #{replyType,jdbcType=VARCHAR}, #{toId,jdbcType=VARCHAR}, #{toName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lifeSharing.pojo.StoryReply" >
@@ -148,6 +125,9 @@
       </if>
       <if test="replyToId != null" >
         reply_to_id,
+      </if>
+      <if test="replyContext != null" >
+        reply_context,
       </if>
       <if test="replierNo != null" >
         replier_no,
@@ -164,9 +144,6 @@
       <if test="toName != null" >
         to_name,
       </if>
-      <if test="replyContext != null" >
-        reply_context,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="replyCode != null" >
@@ -177,6 +154,9 @@
       </if>
       <if test="replyToId != null" >
         #{replyToId,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContext != null" >
+        #{replyContext,jdbcType=VARCHAR},
       </if>
       <if test="replierNo != null" >
         #{replierNo,jdbcType=VARCHAR},
@@ -192,9 +172,6 @@
       </if>
       <if test="toName != null" >
         #{toName,jdbcType=VARCHAR},
-      </if>
-      <if test="replyContext != null" >
-        #{replyContext,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -216,6 +193,9 @@
       <if test="record.replyToId != null" >
         reply_to_id = #{record.replyToId,jdbcType=VARCHAR},
       </if>
+      <if test="record.replyContext != null" >
+        reply_context = #{record.replyContext,jdbcType=VARCHAR},
+      </if>
       <if test="record.replierNo != null" >
         replier_no = #{record.replierNo,jdbcType=VARCHAR},
       </if>
@@ -231,25 +211,7 @@
       <if test="record.toName != null" >
         to_name = #{record.toName,jdbcType=VARCHAR},
       </if>
-      <if test="record.replyContext != null" >
-        reply_context = #{record.replyContext,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update story_reply
-    set reply_code = #{record.replyCode,jdbcType=VARCHAR},
-      comments_code = #{record.commentsCode,jdbcType=VARCHAR},
-      reply_to_id = #{record.replyToId,jdbcType=VARCHAR},
-      replier_no = #{record.replierNo,jdbcType=VARCHAR},
-      replier_name = #{record.replierName,jdbcType=VARCHAR},
-      reply_type = #{record.replyType,jdbcType=VARCHAR},
-      to_id = #{record.toId,jdbcType=VARCHAR},
-      to_name = #{record.toName,jdbcType=VARCHAR},
-      reply_context = #{record.replyContext,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -259,6 +221,7 @@
     set reply_code = #{record.replyCode,jdbcType=VARCHAR},
       comments_code = #{record.commentsCode,jdbcType=VARCHAR},
       reply_to_id = #{record.replyToId,jdbcType=VARCHAR},
+      reply_context = #{record.replyContext,jdbcType=VARCHAR},
       replier_no = #{record.replierNo,jdbcType=VARCHAR},
       replier_name = #{record.replierName,jdbcType=VARCHAR},
       reply_type = #{record.replyType,jdbcType=VARCHAR},
@@ -277,6 +240,9 @@
       <if test="replyToId != null" >
         reply_to_id = #{replyToId,jdbcType=VARCHAR},
       </if>
+      <if test="replyContext != null" >
+        reply_context = #{replyContext,jdbcType=VARCHAR},
+      </if>
       <if test="replierNo != null" >
         replier_no = #{replierNo,jdbcType=VARCHAR},
       </if>
@@ -292,28 +258,14 @@
       <if test="toName != null" >
         to_name = #{toName,jdbcType=VARCHAR},
       </if>
-      <if test="replyContext != null" >
-        reply_context = #{replyContext,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where reply_code = #{replyCode,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lifeSharing.pojo.StoryReply" >
-    update story_reply
-    set comments_code = #{commentsCode,jdbcType=VARCHAR},
-      reply_to_id = #{replyToId,jdbcType=VARCHAR},
-      replier_no = #{replierNo,jdbcType=VARCHAR},
-      replier_name = #{replierName,jdbcType=VARCHAR},
-      reply_type = #{replyType,jdbcType=VARCHAR},
-      to_id = #{toId,jdbcType=VARCHAR},
-      to_name = #{toName,jdbcType=VARCHAR},
-      reply_context = #{replyContext,jdbcType=LONGVARCHAR}
     where reply_code = #{replyCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lifeSharing.pojo.StoryReply" >
     update story_reply
     set comments_code = #{commentsCode,jdbcType=VARCHAR},
       reply_to_id = #{replyToId,jdbcType=VARCHAR},
+      reply_context = #{replyContext,jdbcType=VARCHAR},
       replier_no = #{replierNo,jdbcType=VARCHAR},
       replier_name = #{replierName,jdbcType=VARCHAR},
       reply_type = #{replyType,jdbcType=VARCHAR},

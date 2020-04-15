@@ -16,21 +16,15 @@ public interface StoryReplyMapper {
 
     int insertSelective(StoryReply record);
 
-    List<StoryReply> selectByExampleWithBLOBs(StoryReplyExample example);
-
     List<StoryReply> selectByExample(StoryReplyExample example);
 
     StoryReply selectByPrimaryKey(String replyCode);
 
     int updateByExampleSelective(@Param("record") StoryReply record, @Param("example") StoryReplyExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") StoryReply record, @Param("example") StoryReplyExample example);
-
     int updateByExample(@Param("record") StoryReply record, @Param("example") StoryReplyExample example);
 
     int updateByPrimaryKeySelective(StoryReply record);
-
-    int updateByPrimaryKeyWithBLOBs(StoryReply record);
 
     int updateByPrimaryKey(StoryReply record);
 }

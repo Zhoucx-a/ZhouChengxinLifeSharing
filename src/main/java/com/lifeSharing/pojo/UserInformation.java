@@ -27,6 +27,8 @@ public class UserInformation {
 
     private String remark;
 
+    private String photoUrl;
+
     public String getUserNo() {
         return userNo;
     }
@@ -121,5 +123,13 @@ public class UserInformation {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl == null ? null : photoUrl.trim();
     }
 }

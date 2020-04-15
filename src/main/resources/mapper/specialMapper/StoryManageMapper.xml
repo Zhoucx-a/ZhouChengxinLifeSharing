@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lifeSharing.mapper.specialMapper.StoryManageMapper">
+    <resultMap id="friendsStoryList" type="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamOut">
+        <result column="story_code" property="storyCode"/>
+        <result column="story_context" property="storyContext"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="photo_url" property="photoUrl"/>
+        <result column="focus_no" property="userNo"/>
+        <result column="focus_name" property="userName"/>
+        <result column="is_like" property="isLike"/>
+        <result column="is_collection" property="isCollection"/>
+        <result column="publish_time" property="publishTime"/>
+    </resultMap>
+
+    <!-- 好友动态分页查询 -->
+    <select id="queryFriendsStory" resultMap="friendsStoryList" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn">
+        select
+            a.focus_no,a.focus_name,
+            b.story_code,b.story_context,
+            b.publish_time,b.like_count,b.photo_url
+        from
+            user_connection a
+                join
+            story_information b
+                on
+            a.focus_no =  b.user_no
+        where
+            a.user_no = #{userNo,jdbcType=VARCHAR}
+        <if test="isSpecialFocus != null and isSpecialFocus != ''">
+            and
+                a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
+        </if>
+        <if test="storyContext != null and storyContext != ''">
+            and
+                b.storyContext LIKE CONCAT('%', #{storyContext},'%')
+        </if>
+        <if test="offset!=null and pageSize!=null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 查询动态数量 -->
+    <select id="countFriendsStory" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn" resultType="java.lang.Long">
+        select
+            count(b.story_code)
+        from
+            user_connection a
+        join
+            story_information b
+        on
+            a.focus_no =  b.user_no
+        join
+            user_story d
+        on
+            d.story_code = b.story_code
+        <where>
+            a.user_no = #{userNo,jdbcType=VARCHAR}
+            <if test="isSpecialFocus != null and isSpecialFocus != ''">
+                and
+                a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
+            </if>
+            <if test="storyContext != null and storyContext != ''">
+                and
+                b.storyContext LIKE CONCAT('%', #{storyContext},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 查询评论数量 -->
+    <select id="countStoryComments" parameterType="java.lang.String" resultType="java.lang.Long">
+        select
+            count(*)
+        from
+            story_comments a
+        join
+            story_reply b
+        on
+            a.comments_code =  b.comments_code
+        where
+            a.story_code = #{storyCode,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 批量删除二级评论 -->
+    <delete id="batchDeleteReply" parameterType="java.util.List">
+        DELETE FROM
+            story_reply
+        WHERE
+            comments_code
+        in
+        <foreach collection="list" item="commentsList" open="(" close=")" separator=",">
+            #{commentsList.commentsCode}
+        </foreach>
+    </delete>
+
+</mapper>

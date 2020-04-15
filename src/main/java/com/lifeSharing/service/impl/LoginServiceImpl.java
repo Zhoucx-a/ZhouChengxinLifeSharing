@@ -1,14 +1,9 @@
 package com.lifeSharing.service.impl;
 
-import com.lifeSharing.mapper.UserInformationMapper;
-import com.lifeSharing.params.login.CheckTelParamIn;
-import com.lifeSharing.params.login.LoginParamIn;
-import com.lifeSharing.params.login.RegisterParamIn;
-import com.lifeSharing.params.login.ResetParamIn;
+import com.lifeSharing.params.login.*;
 import com.lifeSharing.pojo.UserInformation;
 import com.lifeSharing.pojo.UserInformationExample;
 import com.lifeSharing.service.inter.LoginService;
-import com.lifeSharing.toolsUtil.MyException;
 import com.lifeSharing.toolsUtil.MyResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -44,12 +39,13 @@ public class LoginServiceImpl implements LoginService {
      *用户登录
      */
     @Override
-    public MyResult loginInUser(LoginParamIn in) {
-        MyResult myResult = new MyResult();
+    public LoginInParamOut loginInUser(LoginParamIn in) {
+        LoginInParamOut myResult = new LoginInParamOut();
         //条件拼接
         UserInformationExample userInformationExample = new UserInformationExample();
         userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
         int count = userInformationMapper.countByExample(userInformationExample);
+
         //判断用户名是否存在
         if(count == 0){
             myResult.setCode(1);
@@ -64,9 +60,21 @@ public class LoginServiceImpl implements LoginService {
             myResult.setMsg("密码不正确！");
             return myResult;
         }
+        String loginType = userInformation.getLoginType();
+        //判断角色
+        if("1".equals(loginType)){
+            myResult.setCode(0);
+            myResult.setMsg("管理员登陆成功！");
+            myResult.setLoginType(userInformation.getLoginType());
+            myResult.setUserNo(userInformation.getUserNo());
+            myResult.setUserName(userInformation.getUserName());
+            return myResult;
+        }
         myResult.setCode(0);
-        myResult.setMsg("登陆成功！");
-        myResult.setObj(userInformation.getUserName());
+        myResult.setMsg("用户登陆成功！");
+        myResult.setLoginType(userInformation.getLoginType());
+        myResult.setUserNo(userInformation.getUserNo());
+        myResult.setUserName(userInformation.getUserName());
         return myResult;
     }
 
@@ -94,6 +102,10 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+    /*
+     *电话校验
+     */
+
     @Override
     public MyResult checkTel(CheckTelParamIn in) {
         MyResult myResult = new MyResult();
@@ -106,6 +118,28 @@ public class LoginServiceImpl implements LoginService {
         }
         myResult.setCode(0);
         myResult.setMsg("校验通过！");
+        return myResult;
+    }
+
+    /*
+     *用户ID校验
+     */
+
+    @Override
+    public MyResult checkUserNO(CheckUserNoParamIn in) {
+        MyResult myResult = new MyResult();
+        //条件拼接
+        UserInformationExample userInformationExample = new UserInformationExample();
+        userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
+        //查询该用户是否存在
+        long count = userInformationMapper.countByExample(userInformationExample);
+        if(count == 0){
+            myResult.setCode(1);
+            myResult.setMsg("该用户不存在！");
+            return myResult;
+        }
+        myResult.setCode(0);
+        myResult.setMsg("该用户存在！");
         return myResult;
     }
 }

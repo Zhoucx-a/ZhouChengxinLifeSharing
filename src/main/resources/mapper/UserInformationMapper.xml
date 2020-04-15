@@ -14,6 +14,7 @@
     <result column="birth" property="birth" jdbcType="TIMESTAMP" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     user_no, user_name, sex, password, tel, login_type, login_status, register_time, 
-    description, birth, address, remark
+    description, birth, address, remark, photo_url
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.UserInformationExample" >
     select
@@ -111,13 +112,13 @@
     insert into user_information (user_no, user_name, sex, 
       password, tel, login_type, 
       login_status, register_time, description, 
-      birth, address, remark
-      )
+      birth, address, remark, 
+      photo_url)
     values (#{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{loginType,jdbcType=VARCHAR}, 
       #{loginStatus,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
-      #{birth,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{birth,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{photoUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lifeSharing.pojo.UserInformation" >
     insert into user_information
@@ -158,6 +159,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="photoUrl != null" >
+        photo_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userNo != null" >
@@ -195,6 +199,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl != null" >
+        #{photoUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +250,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.photoUrl != null" >
+        photo_url = #{record.photoUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +271,8 @@
       description = #{record.description,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=TIMESTAMP},
       address = #{record.address,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      photo_url = #{record.photoUrl,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +313,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="photoUrl != null" >
+        photo_url = #{photoUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_no = #{userNo,jdbcType=VARCHAR}
   </update>
@@ -317,7 +331,8 @@
       description = #{description,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=TIMESTAMP},
       address = #{address,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      photo_url = #{photoUrl,jdbcType=VARCHAR}
     where user_no = #{userNo,jdbcType=VARCHAR}
   </update>
 </mapper>
