@@ -6,9 +6,9 @@ import java.util.List;
 
 @Data
 public class QueryStoryCommentsParamOut {
-    private String commentsCode;
+    private String commentsCode;    //一级评论编码
 
-    private String commentatorNo;
+    private String commentatorNo;   //一级评论人
 
     private String commentatorName;
 
@@ -16,5 +16,7 @@ public class QueryStoryCommentsParamOut {
 
     private boolean replyOpen;
 
-    private List replyList;
+    private List replyList;     //二级评论列表
+
+    private String myPhotoUrl;
 }

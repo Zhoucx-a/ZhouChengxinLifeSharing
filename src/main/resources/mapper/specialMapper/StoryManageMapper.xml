@@ -4,44 +4,63 @@
     <resultMap id="friendsStoryList" type="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamOut">
         <result column="story_code" property="storyCode"/>
         <result column="story_context" property="storyContext"/>
-        <result column="like_count" property="likeCount"/>
         <result column="photo_url" property="photoUrl"/>
-        <result column="focus_no" property="userNo"/>
-        <result column="focus_name" property="userName"/>
-        <result column="is_like" property="isLike"/>
-        <result column="is_collection" property="isCollection"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
         <result column="publish_time" property="publishTime"/>
     </resultMap>
 
+
+    <resultMap id="friendsSpecialList" type="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamOut">
+        <result column="story_code" property="storyCode"/>
+        <result column="story_context" property="storyContext"/>
+        <result column="photo_url" property="photoUrl"/>
+        <result column="focus_no" property="userNo"/>
+        <result column="focus_name" property="userName"/>
+        <result column="publish_time" property="publishTime"/>
+    </resultMap>
     <!-- 好友动态分页查询 -->
     <select id="queryFriendsStory" resultMap="friendsStoryList" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn">
         select
-            a.focus_no,a.focus_name,
+            a.user_no,a.user_name,
             b.story_code,b.story_context,
-            b.publish_time,b.like_count,b.photo_url
+            b.publish_time,b.photo_url
         from
-            user_connection a
-                join
             story_information b
-                on
-            a.focus_no =  b.user_no
+        JOIN
+            user_information a
+        ON
+            a.user_no = b.user_no
         where
-            a.user_no = #{userNo,jdbcType=VARCHAR}
+            b.user_no = #{userNo,jdbcType=VARCHAR}
+        or
+            b.user_no in (SELECT focus_no FROM user_connection c WHERE c.user_no = #{userNo,jdbcType=VARCHAR})
         <if test="isSpecialFocus != null and isSpecialFocus != ''">
             and
-                a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
+            a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
         </if>
         <if test="storyContext != null and storyContext != ''">
             and
-                b.storyContext LIKE CONCAT('%', #{storyContext},'%')
+            b.story_context LIKE "%"#{storyContext}"%"
         </if>
+            order by b.publish_time desc
         <if test="offset!=null and pageSize!=null">
             limit #{offset},#{pageSize}
         </if>
     </select>
 
-    <!-- 查询动态数量 -->
-    <select id="countFriendsStory" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn" resultType="java.lang.Long">
+    <!-- 查询个人动态数量 -->
+    <select id="countPersonalStory" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            story_information
+        where
+            user_no = #{userNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 查询好友动态数量 -->
+    <select id="countFriendsStory" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn" resultType="java.lang.Integer">
         select
             count(b.story_code)
         from
@@ -49,11 +68,7 @@
         join
             story_information b
         on
-            a.focus_no =  b.user_no
-        join
-            user_story d
-        on
-            d.story_code = b.story_code
+            a.focus_no = b.user_no
         <where>
             a.user_no = #{userNo,jdbcType=VARCHAR}
             <if test="isSpecialFocus != null and isSpecialFocus != ''">
@@ -62,14 +77,13 @@
             </if>
             <if test="storyContext != null and storyContext != ''">
                 and
-                b.storyContext LIKE CONCAT('%', #{storyContext},'%')
+                b.story_context LIKE "%"#{storyContext}"%"
             </if>
         </where>
     </select>
 
-
     <!-- 查询评论数量 -->
-    <select id="countStoryComments" parameterType="java.lang.String" resultType="java.lang.Long">
+    <select id="countStoryComments" parameterType="java.lang.String" resultType="java.lang.Integer">
         select
             count(*)
         from
@@ -77,7 +91,7 @@
         join
             story_reply b
         on
-            a.comments_code =  b.comments_code
+            a.comments_code = b.comments_code
         where
             a.story_code = #{storyCode,jdbcType=VARCHAR}
     </select>
@@ -94,4 +108,88 @@
         </foreach>
     </delete>
 
+    <!-- 查询特别关注-->
+    <select id="querySpecialStory" resultMap="friendsSpecialList" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn">
+        select
+            a.focus_no,a.focus_name,
+            b.story_code,b.story_context,
+            b.publish_time,b.photo_url
+        from
+            story_information b
+        JOIN
+            user_connection a
+        ON
+            a.focus_no = b.user_no
+        where
+            a.user_no = #{userNo,jdbcType=VARCHAR}
+        and
+            a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
+        order by b.publish_time desc
+        <if test="offset!=null and pageSize!=null">
+            limit #{offset},#{pageSize}
+        </if>
+
+    </select>
+
+    <!-- 查询特别关注数量-->
+    <select id="countSpecialStory" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn" resultType="java.lang.Integer">
+        select
+            count(b.story_code)
+        from
+            user_connection a
+        join
+            story_information b
+        on
+            a.focus_no = b.user_no
+        where
+            a.user_no = #{userNo,jdbcType=VARCHAR}
+        and
+            a.is_special_focus = #{isSpecialFocus,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 动态模糊查询 -->
+    <select id="queryStoryLike" resultMap="friendsStoryList" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn">
+        select
+            story.user_no,story.user_name,
+            story.story_code,story.story_context,
+            story.publish_time,story.photo_url
+        from
+            (select
+            a.user_no,a.user_name,
+            b.story_code,b.story_context,
+            b.publish_time,b.photo_url
+            from
+            story_information b
+            JOIN
+            user_information a
+            ON
+            a.user_no = b.user_no
+            where
+            b.user_no = #{userNo,jdbcType=VARCHAR}
+            or
+            b.user_no in (SELECT focus_no FROM user_connection c WHERE c.user_no = #{userNo,jdbcType=VARCHAR})
+            ) story
+        where
+            story.story_context LIKE "%"#{storyContext}"%"
+        order by story.publish_time desc
+        <if test="offset!=null and pageSize!=null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 动态模糊查询数量-->
+    <select id="countStoryLike" parameterType="com.lifeSharing.params.storyManage.QueryFriendsStoryListParamIn" resultType="java.lang.Integer">
+        select
+            count(b.story_code)
+        from
+            user_connection a
+        join
+            story_information b
+        on
+            a.focus_no = b.user_no
+        where
+            a.user_no = #{userNo,jdbcType=VARCHAR}
+        and
+            b.story_context LIKE "%"#{storyContext}"%"
+    </select>
 </mapper>

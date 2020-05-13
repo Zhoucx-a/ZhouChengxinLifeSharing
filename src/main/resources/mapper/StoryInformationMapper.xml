@@ -6,7 +6,7 @@
     <id column="user_no" property="userNo" jdbcType="VARCHAR" />
     <result column="story_context" property="storyContext" jdbcType="VARCHAR" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
-    <result column="like_count" property="likeCount" jdbcType="INTEGER" />
+    <result column="is_check" property="isCheck" jdbcType="INTEGER" />
     <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    story_code, user_no, story_context, publish_time, like_count, photo_url
+    story_code, user_no, story_context, publish_time, is_check, photo_url
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lifeSharing.pojo.StoryInformationExample" >
     select
@@ -104,10 +104,10 @@
   </delete>
   <insert id="insert" parameterType="com.lifeSharing.pojo.StoryInformation" >
     insert into story_information (story_code, user_no, story_context, 
-      publish_time, like_count, photo_url
+      publish_time, is_check, photo_url
       )
     values (#{storyCode,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{storyContext,jdbcType=VARCHAR}, 
-      #{publishTime,jdbcType=TIMESTAMP}, #{likeCount,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR}
+      #{publishTime,jdbcType=TIMESTAMP}, #{isCheck,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lifeSharing.pojo.StoryInformation" >
@@ -125,8 +125,8 @@
       <if test="publishTime != null" >
         publish_time,
       </if>
-      <if test="likeCount != null" >
-        like_count,
+      <if test="isCheck != null" >
+        is_check,
       </if>
       <if test="photoUrl != null" >
         photo_url,
@@ -145,8 +145,8 @@
       <if test="publishTime != null" >
         #{publishTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="likeCount != null" >
-        #{likeCount,jdbcType=INTEGER},
+      <if test="isCheck != null" >
+        #{isCheck,jdbcType=INTEGER},
       </if>
       <if test="photoUrl != null" >
         #{photoUrl,jdbcType=VARCHAR},
@@ -174,8 +174,8 @@
       <if test="record.publishTime != null" >
         publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.likeCount != null" >
-        like_count = #{record.likeCount,jdbcType=INTEGER},
+      <if test="record.isCheck != null" >
+        is_check = #{record.isCheck,jdbcType=INTEGER},
       </if>
       <if test="record.photoUrl != null" >
         photo_url = #{record.photoUrl,jdbcType=VARCHAR},
@@ -191,7 +191,7 @@
       user_no = #{record.userNo,jdbcType=VARCHAR},
       story_context = #{record.storyContext,jdbcType=VARCHAR},
       publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
-      like_count = #{record.likeCount,jdbcType=INTEGER},
+      is_check = #{record.isCheck,jdbcType=INTEGER},
       photo_url = #{record.photoUrl,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -206,8 +206,8 @@
       <if test="publishTime != null" >
         publish_time = #{publishTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="likeCount != null" >
-        like_count = #{likeCount,jdbcType=INTEGER},
+      <if test="isCheck != null" >
+        is_check = #{isCheck,jdbcType=INTEGER},
       </if>
       <if test="photoUrl != null" >
         photo_url = #{photoUrl,jdbcType=VARCHAR},
@@ -220,7 +220,7 @@
     update story_information
     set story_context = #{storyContext,jdbcType=VARCHAR},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      like_count = #{likeCount,jdbcType=INTEGER},
+      is_check = #{isCheck,jdbcType=INTEGER},
       photo_url = #{photoUrl,jdbcType=VARCHAR}
     where story_code = #{storyCode,jdbcType=VARCHAR}
       and user_no = #{userNo,jdbcType=VARCHAR}

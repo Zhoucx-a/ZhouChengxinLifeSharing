@@ -1,5 +1,8 @@
 package com.lifeSharing.controller.impl;
 
+import com.lifeSharing.params.UploadManage.MyBackPhotoParam;
+import com.lifeSharing.params.UploadManage.MyPhotoParam;
+import com.lifeSharing.service.impl.UploadService;
 import com.lifeSharing.toolsUtil.MyResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +23,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/file")
 public class UploadController {
-    //单文件上传
+    @Resource
+    private UploadService uploadService;
+
+
+    //上传动态图片
     @PostMapping("/upFile")
     @ResponseBody
     public MyResult upFile(MultipartFile file, HttpServletRequest request) throws IOException {
@@ -27,11 +35,11 @@ public class UploadController {
         String res = sdf.format(new Date());
 
         // uploads文件夹位置
-        String rootPath = request.getSession().getServletContext().getRealPath("resource/uploads/");
+        String rootPath = "D:\\staticResources";
         // 原始名称
         String originalFileName = file.getOriginalFilename();
         // 新文件名(sliver+当前时间)
-        String newFileName = "sliver" + res + originalFileName.substring(originalFileName.lastIndexOf("."));
+        String newFileName = res + originalFileName.substring(originalFileName.lastIndexOf("."));
         // 创建年月文件夹
         Calendar date = Calendar.getInstance();
         File dateDirs = new File(date.get(Calendar.YEAR) + File.separator + (date.get(Calendar.MONTH)+1));
@@ -45,7 +53,7 @@ public class UploadController {
         // 将内存中的数据写入磁盘
         file.transferTo(newFile);
         // 完整的url
-        String fileUrl = rootPath + "/" + date.get(Calendar.YEAR) + "/" + (date.get(Calendar.MONTH)+1) + "/" + newFileName;
+        String fileUrl = "http://localhost:8080/upload/" + date.get(Calendar.YEAR) + "\\" + (date.get(Calendar.MONTH)+1) + "\\" + newFileName;
         //返回url
         MyResult myResult = new MyResult();
         myResult.setObj(fileUrl);
@@ -74,5 +82,17 @@ public class UploadController {
             myResult.setMsg("文件不存在！");
             return myResult;
         }
+    }
+
+    @PostMapping("/updateMyPhoto")
+    @ResponseBody
+    public MyResult updateMyPhoto(@RequestBody MyPhotoParam in){
+        return uploadService.updateMyPhoto(in);
+    }
+
+    @PostMapping("/updateMyBackPhoto")
+    @ResponseBody
+    public MyResult updateMyBackPhoto(@RequestBody MyBackPhotoParam in){
+        return uploadService.updateMyBackPhoto(in);
     }
 }

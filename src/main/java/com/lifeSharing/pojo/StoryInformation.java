@@ -7,7 +7,7 @@ public class StoryInformation extends StoryInformationKey {
 
     private Date publishTime;
 
-    private Integer likeCount;
+    private Integer isCheck;
 
     private String photoUrl;
 
@@ -27,12 +27,12 @@ public class StoryInformation extends StoryInformationKey {
         this.publishTime = publishTime;
     }
 
-    public Integer getLikeCount() {
-        return likeCount;
+    public Integer getIsCheck() {
+        return isCheck;
     }
 
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
+    public void setIsCheck(Integer isCheck) {
+        this.isCheck = isCheck;
     }
 
     public String getPhotoUrl() {

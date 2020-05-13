@@ -24,4 +24,7 @@
         <property name="prefix" value="/WEB-INF/" />
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <!-- 注解映射器 -->
+    <mvc:annotation-driven/>
 </beans>

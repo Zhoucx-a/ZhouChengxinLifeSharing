@@ -994,6 +994,76 @@ public class UserInformationExample {
             addCriterion("photo_url not between", value1, value2, "photoUrl");
             return (Criteria) this;
         }
+
+        public Criteria andBackPhotoUrlIsNull() {
+            addCriterion("back_photo_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlIsNotNull() {
+            addCriterion("back_photo_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlEqualTo(String value) {
+            addCriterion("back_photo_url =", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlNotEqualTo(String value) {
+            addCriterion("back_photo_url <>", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlGreaterThan(String value) {
+            addCriterion("back_photo_url >", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("back_photo_url >=", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlLessThan(String value) {
+            addCriterion("back_photo_url <", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlLessThanOrEqualTo(String value) {
+            addCriterion("back_photo_url <=", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlLike(String value) {
+            addCriterion("back_photo_url like", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlNotLike(String value) {
+            addCriterion("back_photo_url not like", value, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlIn(List<String> values) {
+            addCriterion("back_photo_url in", values, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlNotIn(List<String> values) {
+            addCriterion("back_photo_url not in", values, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlBetween(String value1, String value2) {
+            addCriterion("back_photo_url between", value1, value2, "backPhotoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackPhotoUrlNotBetween(String value1, String value2) {
+            addCriterion("back_photo_url not between", value1, value2, "backPhotoUrl");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -7,28 +7,12 @@
         <setting name="logImpl" value="log4j" />
     </settings>
 
-    <!--设置实体别名-->
-    <!--
-    <typeAliases>
-        <typeAlias type="com.lifeSharing.pojo.StoryComments" alias="StoryComments"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryCommentsExample" alias="StoryCommentsExample"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryInformation" alias="StoryInformation"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryInformationExample" alias="StoryInformationExample"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryInformationHis" alias="StoryInformationHis"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryInformationHisExample" alias="StoryComments"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryInformationKey" alias="StoryInformationKey"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryReply" alias="StoryReply"/>
-        <typeAlias type="com.lifeSharing.pojo.StoryReplyExample" alias="StoryReplyExample"/>
-        <typeAlias type="com.lifeSharing.pojo.UserConnection" alias="UserConnection"/>
-        <typeAlias type="com.lifeSharing.pojo.UserConnectionExample" alias="UserConnectionExample"/>
-        <typeAlias type="com.lifeSharing.pojo.UserConnectionKey" alias="UserConnectionKey"/>
-        <typeAlias type="com.lifeSharing.pojo.UserInformation" alias="UserInformation"/>
-        <typeAlias type="com.lifeSharing.pojo.UserInformationExample" alias="UserInformationExample"/>
-        <typeAlias type="com.lifeSharing.pojo.UserStory" alias="UserStory"/>
-        <typeAlias type="com.lifeSharing.pojo.UserStoryExample" alias="UserStoryExample"/>
-        <typeAlias type="com.lifeSharing.pojo.UserStoryKey" alias="UserStoryKey"/>
-    </typeAliases>
-    -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
 
     <!--映射文件的设置 -->
     <mappers>
@@ -39,5 +23,6 @@
         <mapper resource="mapper/UserConnectionMapper.xml"/>
         <mapper resource="mapper/UserInformationMapper.xml"/>
         <mapper resource="mapper/UserStoryMapper.xml"/>
+        <mapper resource="mapper/specialMapper/StoryManageMapper.xml"/>
     </mappers>
 </configuration>

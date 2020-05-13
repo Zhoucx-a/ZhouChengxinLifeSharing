@@ -1,6 +1,10 @@
 package com.lifeSharing.params.storyManage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
 
 @Data
 public class QueryPersonalStoryListParamOut {
@@ -8,9 +12,15 @@ public class QueryPersonalStoryListParamOut {
 
     private String storyContext;
 
-    private Integer likeCount;
+    private int likeCount;
 
-    private String photoUrl;
+    private int likeStatus;
+
+    private int collectionCount;
+
+    private int collectionStatus;
+
+    private List<String> photoUrl;
 
     private String userNo;
 
@@ -18,6 +28,11 @@ public class QueryPersonalStoryListParamOut {
 
     private boolean commentOpen;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date publishTime;
+
     //评论数量
     private long commentsCount;
+
+    private String myPhotoUrl;
 }

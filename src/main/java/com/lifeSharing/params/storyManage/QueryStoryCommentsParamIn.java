@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class QueryStoryCommentsParamIn {
     private String storyCode;
+
+    private String userNo;
 }

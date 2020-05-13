@@ -44,7 +44,7 @@ public class LoginControllerImpl implements LoginController {
         String validateCode = session.getAttribute("RANDOMKEY").toString();
         if (!StringUtils.isEmpty(validateCode)){
             if (!validateCode.equals(in.getValidateCode())) {
-                myResult.setCode(3);
+                myResult.setCode(4);
                 myResult.setMsg("验证码不正确！");
                 return myResult;
             }
@@ -92,5 +92,12 @@ public class LoginControllerImpl implements LoginController {
     @ResponseBody
     public MyResult checkUserNo(@RequestBody CheckUserNoParamIn in) {
         return loginService.checkUserNO(in);
+    }
+
+    @Override
+    @PostMapping("/lockedUserNo")
+    @ResponseBody
+    public MyResult lockedUserNo(@RequestBody LockedUserNoParamIn in) {
+        return loginService.lockedUserNo(in);
     }
 }

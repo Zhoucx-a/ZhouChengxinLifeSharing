@@ -4,6 +4,7 @@ import com.lifeSharing.params.storyManage.*;
 import com.lifeSharing.pojo.StoryComments;
 import com.lifeSharing.pojo.StoryInformation;
 import com.lifeSharing.pojo.StoryReply;
+import com.lifeSharing.pojo.UserInformation;
 import com.lifeSharing.toolsUtil.MyResult;
 import com.lifeSharing.toolsUtil.PageOut;
 
@@ -25,9 +26,6 @@ public interface StoryManageService {
     //修改动态
     public MyResult updateStory(UpdateStoryParamIn in);
 
-    //收藏|是否收藏
-    public MyResult isColleciton(IsCollectionParamIn in);
-
     //查询一级评论
     public List<StoryComments> queryStoryComments(QueryStoryCommentsParamIn in);
 
@@ -37,8 +35,11 @@ public interface StoryManageService {
     //发表一级评论
     public MyResult publishStoryComments(PublishStoryCommentsParamIn in);
 
-    //发表二级评论
-    public MyResult publishStoryReply(PublishStoryReplyParamIn in);
+    //发表二级评论(回复一级评论)
+    public MyResult publishStoryReplyOne(PublishStoryReplyOneParamIn in);
+
+    //发表二级评论（回复二级评论）
+    public MyResult publishStoryReplyTwo(PublishStoryReplyTwoParamIn in);
 
     //删除一级评论
     public MyResult deleteStoryComments(DeleteStoryCommentsParamIn in);
@@ -46,14 +47,18 @@ public interface StoryManageService {
     //删除二级评论
     public MyResult deleteStoryReply(DeleteStoryReplyParamIn in);
 
+    //查询特别关注
+    public PageOut<QueryFriendsStoryListParamOut> querySpecialStory(QueryFriendsStoryListParamIn in);
+
+    //动态模糊查询
+    public PageOut<QueryFriendsStoryListParamOut> queryStoryLike(QueryFriendsStoryListParamIn in);
+
+    //查询用户头像
+    public UserInformation queryMyPhotoUrl(String userNo);
 
 
-
-
-
-
-    //点赞|是否点赞
-    public MyResult isLike(IsLikeParamIn in);
+    //拆分图片URL
+    public List<String> getPhotoUrlList(String photoUrl);
 
     //查询动态评论数量
     public long countStoryComments(String userNo);

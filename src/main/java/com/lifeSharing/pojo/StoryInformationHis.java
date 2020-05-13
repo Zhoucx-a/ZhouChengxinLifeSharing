@@ -13,7 +13,7 @@ public class StoryInformationHis {
 
     private Date publishTime;
 
-    private Integer likeCount;
+    private Integer isCheck;
 
     private String operNo;
 
@@ -65,12 +65,12 @@ public class StoryInformationHis {
         this.publishTime = publishTime;
     }
 
-    public Integer getLikeCount() {
-        return likeCount;
+    public Integer getIsCheck() {
+        return isCheck;
     }
 
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
+    public void setIsCheck(Integer isCheck) {
+        this.isCheck = isCheck;
     }
 
     public String getOperNo() {

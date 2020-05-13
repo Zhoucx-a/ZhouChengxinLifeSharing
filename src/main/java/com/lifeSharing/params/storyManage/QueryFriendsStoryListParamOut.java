@@ -1,5 +1,6 @@
 package com.lifeSharing.params.storyManage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,18 +11,13 @@ public class QueryFriendsStoryListParamOut {
 
     private String storyContext;
 
-    private Integer likeCount;
-
     private String photoUrl;
 
     private String userNo;
 
     private String userName;
 
-    private String isLike;
-
-    private String isCollection;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date publishTime;
 
     private boolean commentOpen;

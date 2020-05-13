@@ -10,7 +10,7 @@ public class QueryStoryReplyParamOut {
 
     private String replyContext;
 
-    private String replierNo;
+    private String replierNo;   //回复人
 
     private String replierName;
 
@@ -19,4 +19,6 @@ public class QueryStoryReplyParamOut {
     private String toId;
 
     private String toName;
+
+    private boolean replyOpen;
 }

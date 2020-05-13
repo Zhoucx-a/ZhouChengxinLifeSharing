@@ -1,6 +1,7 @@
 package com.lifeSharing.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lifeSharing.mapper.*;
 import com.lifeSharing.mapper.specialMapper.StoryManageMapper;
 import com.lifeSharing.params.storyManage.*;
@@ -56,7 +57,16 @@ public class StoryManageServiceImpl implements StoryManageService {
             list.add(storyList);
         }
         //计算总条数
-        long count = storyManageMapper.countFriendsStory(in);
+        //好友动态的条数
+        long count1 = storyManageMapper.countFriendsStory(in);
+        //个人动态条数
+        StoryInformationExample storyInformationExample = new StoryInformationExample();
+        storyInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
+        long count2 = storyInformationMapper.countByExample(storyInformationExample);
+
+
+        long count = count1 + count2;
+
         //出参封装
         PageOut<QueryFriendsStoryListParamOut> pageOut = new PageOut<>();
         pageOut.setOut(dataList);
@@ -75,15 +85,18 @@ public class StoryManageServiceImpl implements StoryManageService {
         //条件拼接
         StoryInformationExample storyInformationExample = new StoryInformationExample();
         storyInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
-        //查询数量
-        long count = storyInformationMapper.countByExample(storyInformationExample);
+
+        storyInformationExample.setOrderByClause("publish_time DESC");
         //查询动态
         List<StoryInformation> dataList = storyInformationMapper.selectByExample(storyInformationExample);
+        //取分页信息
+        PageInfo<StoryInformation> pageInfo = new PageInfo<StoryInformation>(dataList);
+        long total = pageInfo.getTotal();
 
         PageOut<StoryInformation> pageOut = new PageOut<StoryInformation>();
         pageOut.setOut(dataList);
-        pageOut.setTotalPage(count/in.getPageSize());
-        pageOut.setTotalRecord(count);
+        pageOut.setTotalPage(total/in.getPageSize());
+        pageOut.setTotalRecord(total);
         return pageOut;
     }
 
@@ -140,7 +153,7 @@ public class StoryManageServiceImpl implements StoryManageService {
         StoryInformation storyInformation = new StoryInformation();
         BeanUtils.copyProperties(in,storyInformation);
         storyInformation.setStoryCode(UUID.randomUUID().toString());
-        storyInformation.setLikeCount(0);
+        storyInformation.setIsCheck(0);
         storyInformation.setPublishTime(new Date());
 
         storyInformationMapper.insert(storyInformation);
@@ -209,71 +222,13 @@ public class StoryManageServiceImpl implements StoryManageService {
         return myResult;
     }
 
-    //收藏|是否收藏
-    @Override
-    public MyResult isColleciton(IsCollectionParamIn in) {
-        MyResult myResult = new MyResult();
-        //查询是否存在该用户是否拥有该动态
-        UserStoryExample userStoryExample = new UserStoryExample();
-        userStoryExample.createCriteria().andStoryCodeEqualTo(in.getStoryCode()).andUserNoEqualTo(in.getUserNo());
-
-        int count = userStoryMapper.countByExample(userStoryExample);
-        //表中无该动态
-        if(count == 0){
-            UserStory userStory = new UserStory();
-            BeanUtils.copyProperties(in,userStory);
-            userStory.setIsCollection("Y");
-            userStory.setCollectionTime(new Date());
-            int count1 = userStoryMapper.insert(userStory);
-            if(count1 == 0){
-                myResult.setCode(1);
-                myResult.setMsg("收藏失败！");
-                return myResult;
-            }
-            myResult.setCode(0);
-            myResult.setMsg("收藏成功！");
-            return myResult;
-        }
-        //表中存在该动态
-        else{
-            int code =  this.checkIsLikeOrIsCollection(in.getUserNo(),in.getStoryCode());
-            if(code == 0||code == 2){       //脏数据或者只点赞，进行收藏
-                UserStory userStory = new UserStory();
-                userStory.setIsCollection("Y");
-                userStory.setCollectionTime(new Date());
-                int count2 = userStoryMapper.updateByExample(userStory,userStoryExample);
-                if(count2 == 0){
-                    myResult.setCode(1);
-                    myResult.setMsg("收藏失败！");
-                    return myResult;
-                }
-                myResult.setCode(0);
-                myResult.setMsg("收藏成功！");
-                return myResult;
-            }
-            else{                           //点赞+收藏或者只收藏，取消收藏
-                UserStory userStory = new UserStory();
-                userStory.setIsCollection("");
-                userStory.setCollectionTime(null);
-                int count2 = userStoryMapper.updateByExample(userStory,userStoryExample);
-                if(count2 == 0){
-                    myResult.setCode(1);
-                    myResult.setMsg("取消收藏失败！");
-                    return myResult;
-                }
-                myResult.setCode(0);
-                myResult.setMsg("取消收藏成功！");
-                return myResult;
-            }
-        }
-    }
-
     //查询一级评论
     @Override
     public List<StoryComments> queryStoryComments(QueryStoryCommentsParamIn in) {
         StoryCommentsExample storyCommentsExample = new StoryCommentsExample();
         storyCommentsExample.createCriteria().andStoryCodeEqualTo(in.getStoryCode());
-        return storyCommentsMapper.selectByExample(storyCommentsExample);
+        List<StoryComments> list = storyCommentsMapper.selectByExample(storyCommentsExample);
+        return list;
 
     }
 
@@ -282,7 +237,8 @@ public class StoryManageServiceImpl implements StoryManageService {
     public List<StoryReply> queryStoryReply(QueryStoryReplyParamIn in) {
         StoryReplyExample storyReplyExample = new StoryReplyExample();
         storyReplyExample.createCriteria().andCommentsCodeEqualTo(in.getCommentsCode());
-        return storyReplyMapper.selectByExample(storyReplyExample);
+        List<StoryReply> list = storyReplyMapper.selectByExample(storyReplyExample);
+        return list;
     }
 
     //发表一级评论
@@ -304,15 +260,32 @@ public class StoryManageServiceImpl implements StoryManageService {
         return myResult;
     }
 
-    //发表二级评论
+    //发表二级评论(回复一级评论)
     @Override
-    public MyResult publishStoryReply(PublishStoryReplyParamIn in) {
+    public MyResult publishStoryReplyOne(PublishStoryReplyOneParamIn in) {
         StoryReply storyReply = new StoryReply();
         BeanUtils.copyProperties(in,storyReply);
         storyReply.setReplyCode(UUID.randomUUID().toString());
-        if(in.getReplyToId().equals(in.getCommentsCode())){
-            storyReply.setReplyType("1");
+        storyReply.setReplyToId(in.getCommentsCode());
+        storyReply.setReplyType("1");
+        int count = storyReplyMapper.insert(storyReply);
+        MyResult myResult = new MyResult();
+        if(count == 0){
+            myResult.setCode(1);
+            myResult.setMsg("发表失败！");
+            return myResult;
         }
+        myResult.setCode(0);
+        myResult.setMsg("发表成功！");
+        return myResult;
+    }
+
+    //发表二级评论(回复二级评论)
+    @Override
+    public MyResult publishStoryReplyTwo(PublishStoryReplyTwoParamIn in) {
+        StoryReply storyReply = new StoryReply();
+        BeanUtils.copyProperties(in,storyReply);
+        storyReply.setReplyCode(UUID.randomUUID().toString());
         storyReply.setReplyType("2");
         int count = storyReplyMapper.insert(storyReply);
         MyResult myResult = new MyResult();
@@ -362,87 +335,70 @@ public class StoryManageServiceImpl implements StoryManageService {
         return myResult;
     }
 
-    //点赞|是否点赞
+
+    //查询特别关注
     @Override
-    public MyResult isLike(IsLikeParamIn in) {
-        MyResult myResult = new MyResult();
-        //查询是否存在该用户是否拥有该动态
-        UserStoryExample userStoryExample = new UserStoryExample();
-        userStoryExample.createCriteria().andStoryCodeEqualTo(in.getStoryCode()).andUserNoEqualTo(in.getUserNo());
-
-        int count = userStoryMapper.countByExample(userStoryExample);
-        //表中无该动态
-        if(count == 0){
-            UserStory userStory = new UserStory();
-            BeanUtils.copyProperties(in,userStory);
-            userStory.setIsLike("Y");
-            userStory.setLikeTime(new Date());
-            int count1 = userStoryMapper.insert(userStory);
-            if(count1 == 0){
-                myResult.setCode(1);
-                myResult.setMsg("点赞失败！");
-                return myResult;
-            }
-            //将该动态的点赞数量+1
-            StoryInformationExample storyInformationExample = new StoryInformationExample();
-            storyInformationExample.createCriteria().andStoryCodeEqualTo(in.getStoryCode());
-
-            StoryInformation storyInformation = new StoryInformation();
-            storyInformation.setLikeCount(in.getLikeCount()+1);
-
-            storyInformationMapper.updateByExample(storyInformation,storyInformationExample);
-            //入历史表
-            StoryInformationKey storyInformationKey = new StoryInformationKey();
-            storyInformationKey.setStoryCode(in.getStoryCode());
-            storyInformationKey.setUserNo(in.getUserNo());
-
-            StoryInformation storyInformation1 = storyInformationMapper.selectByPrimaryKey(storyInformationKey);
-
-            StoryInformationHis storyInformationHis = new StoryInformationHis();
-            BeanUtils.copyProperties(storyInformation1,storyInformationHis);
-            storyInformationHis.setOperType("U");
-            storyInformationHis.setOperNo(in.getUserNo());
-            storyInformationHis.setOperName(userInformationMapper.selectByPrimaryKey(in.getUserNo()).getUserName());
-            storyInformationHis.setOperTime(new Date());
-            storyInformationHis.setHisNo(UUID.randomUUID().toString());
-
-            storyInformationHisMapper.insert(storyInformationHis);
-            myResult.setCode(0);
-            myResult.setMsg("点赞成功！");
-            return myResult;
+    public PageOut<QueryFriendsStoryListParamOut> querySpecialStory(QueryFriendsStoryListParamIn in) {
+        //计算limit第一个数值
+        in.setOffset((in.getPageNum() - 1) * in.getPageSize());
+        in.setIsSpecialFocus("Y");
+        //查询分页后的数据
+        List<QueryFriendsStoryListParamOut> dataList = storyManageMapper.querySpecialStory(in);
+        //评论数量拼接
+        List<QueryFriendsStoryListParamOut> list = new ArrayList<>();
+        for(QueryFriendsStoryListParamOut storyList : dataList){
+            storyList.setCommentsCount(this.countStoryComments(storyList.getStoryCode()));
+            storyList.setCommentOpen(false);
+            list.add(storyList);
         }
-        //表中存在该动态
-        else{
-            int code =  this.checkIsLikeOrIsCollection(in.getUserNo(),in.getStoryCode());
-            if(code == 0||code == 3){       //脏数据或者只收藏，进行点赞
-                UserStory userStory = new UserStory();
-                userStory.setIsLike("Y");
-                userStory.setLikeTime(new Date());
-                int count2 = userStoryMapper.updateByExample(userStory,userStoryExample);
-                if(count2 == 0){
-                    myResult.setCode(1);
-                    myResult.setMsg("点赞失败！");
-                    return myResult;
-                }
-                myResult.setCode(0);
-                myResult.setMsg("点赞成功！");
-                return myResult;
-            }
-            else{                           //点赞+收藏或者只收藏，取消点赞
-                UserStory userStory = new UserStory();
-                userStory.setIsLike("");
-                userStory.setLikeTime(null);
-                int count2 = userStoryMapper.updateByExample(userStory,userStoryExample);
-                if(count2 == 0){
-                    myResult.setCode(1);
-                    myResult.setMsg("取消点赞失败！");
-                    return myResult;
-                }
-                myResult.setCode(0);
-                myResult.setMsg("取消点赞成功！");
-                return myResult;
-            }
+        //计算总条数
+        //好友动态的条数
+        long count = storyManageMapper.countSpecialStory(in);
+
+        //出参封装
+        PageOut<QueryFriendsStoryListParamOut> pageOut = new PageOut<>();
+        pageOut.setOut(dataList);
+        pageOut.setTotalPage(count/in.getPageSize());
+        pageOut.setTotalRecord(count);
+        return pageOut;
+    }
+
+    //动态模糊查询
+    @Override
+    public PageOut<QueryFriendsStoryListParamOut> queryStoryLike(QueryFriendsStoryListParamIn in) {
+        //计算limit第一个数值
+        in.setOffset((in.getPageNum() - 1) * in.getPageSize());
+        //查询分页后的数据
+        List<QueryFriendsStoryListParamOut> dataList = storyManageMapper.queryStoryLike(in);
+        //评论数量拼接
+        List<QueryFriendsStoryListParamOut> list = new ArrayList<>();
+        for(QueryFriendsStoryListParamOut storyList : dataList){
+            storyList.setCommentsCount(this.countStoryComments(storyList.getStoryCode()));
+            storyList.setCommentOpen(false);
+            list.add(storyList);
         }
+        //计算总条数
+        //好友动态的条数
+        long count1 = storyManageMapper.countStoryLike(in);
+        //个人动态条数
+        StoryInformationExample storyInformationExample = new StoryInformationExample();
+        storyInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo()).andStoryContextLike("%"+in.getStoryContext()+"%");
+        long count2 = storyInformationMapper.countByExample(storyInformationExample);
+
+        long count = count1 + count2;
+
+        //出参封装
+        PageOut<QueryFriendsStoryListParamOut> pageOut = new PageOut<>();
+        pageOut.setOut(dataList);
+        pageOut.setTotalPage(count/in.getPageSize());
+        pageOut.setTotalRecord(count);
+        return pageOut;
+    }
+
+    //查询用户头像
+    @Override
+    public UserInformation queryMyPhotoUrl(String userNo) {
+        return userInformationMapper.selectByPrimaryKey(userNo);
     }
 
 
@@ -493,5 +449,20 @@ public class StoryManageServiceImpl implements StoryManageService {
         }else {
             return 3;
         }
+    }
+
+    //拆分图片URL
+    public List<String> getPhotoUrlList(String photoUrl){
+        List<String> urlList = new ArrayList<>();
+
+        if(photoUrl.contains(",")){
+            String[] photoUrls = photoUrl.split(",");
+            for (int i = 0;i < photoUrls.length;i++){
+                urlList.add(photoUrls[i]);
+            }
+            return urlList;
+        }
+        urlList.add(photoUrl);
+        return urlList;
     }
 }

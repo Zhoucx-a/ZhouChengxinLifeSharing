@@ -1,6 +1,9 @@
 package com.lifeSharing.service.impl;
 
+import com.lifeSharing.mapper.UserConnectionMapper;
+import com.lifeSharing.mapper.UserInformationMapper;
 import com.lifeSharing.params.login.*;
+import com.lifeSharing.pojo.UserConnection;
 import com.lifeSharing.pojo.UserInformation;
 import com.lifeSharing.pojo.UserInformationExample;
 import com.lifeSharing.service.inter.LoginService;
@@ -18,6 +21,8 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     private UserInformationMapper userInformationMapper;
 
+    @Resource
+    private UserConnectionMapper userConnectionMapper;
     /*
      *用户注册
      */
@@ -25,10 +30,11 @@ public class LoginServiceImpl implements LoginService {
     public MyResult registerUser(RegisterParamIn in) {
         UserInformation newUser = new UserInformation();
         BeanUtils.copyProperties(in,newUser);
-        newUser.setLoginStatus("1");
-        newUser.setLoginType("1");
+        newUser.setLoginStatus("1");    //正常账号
+        newUser.setLoginType("2");  //普通用户
         newUser.setRegisterTime(new Date());
         userInformationMapper.insert(newUser);
+
         MyResult myResult = new MyResult();
         myResult.setCode(0);
         myResult.setMsg("注册成功！");
@@ -45,15 +51,22 @@ public class LoginServiceImpl implements LoginService {
         UserInformationExample userInformationExample = new UserInformationExample();
         userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
         int count = userInformationMapper.countByExample(userInformationExample);
-
         //判断用户名是否存在
         if(count == 0){
             myResult.setCode(1);
             myResult.setMsg("用户不存在！");
             return myResult;
         }
-        //判断密码是否正确
+        //判断该用户是否锁定
         UserInformation userInformation = userInformationMapper.selectByPrimaryKey(in.getUserNo());
+        String loginStatus = userInformation.getLoginStatus();
+        if("2".equals(loginStatus)){
+            myResult.setCode(3);
+            myResult.setMsg("该用户账号被锁定，请联系管理员进行操作！");
+            return myResult;
+        }
+
+        //判断密码是否正确
         String password = userInformation.getPassword();
         if(!password.equals(in.getPassword())){
             myResult.setCode(2);
@@ -140,6 +153,32 @@ public class LoginServiceImpl implements LoginService {
         }
         myResult.setCode(0);
         myResult.setMsg("该用户存在！");
+        return myResult;
+    }
+
+    /*
+     *锁定用户
+     */
+
+    @Override
+    public MyResult lockedUserNo(LockedUserNoParamIn in) {
+        UserInformation userInformation = new UserInformation();
+        userInformation.setLoginStatus("2");
+
+        UserInformationExample userInformationExample = new UserInformationExample();
+        userInformationExample.createCriteria().andUserNoEqualTo(in.getUserNo());
+
+        int count = userInformationMapper.updateByExampleSelective(userInformation,userInformationExample);
+
+        MyResult myResult = new MyResult();
+
+        if(count == 0){
+            myResult.setCode(1);
+            myResult.setMsg("锁定失败！");
+            return myResult;
+        }
+        myResult.setCode(0);
+        myResult.setMsg("锁定成功！");
         return myResult;
     }
 }

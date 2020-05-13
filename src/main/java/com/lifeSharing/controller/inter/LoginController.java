@@ -16,4 +16,6 @@ public interface LoginController {
     public MyResult checkTel(CheckTelParamIn in);
 
     public MyResult checkUserNo(CheckUserNoParamIn in);
+
+    public MyResult lockedUserNo(LockedUserNoParamIn in);
 }

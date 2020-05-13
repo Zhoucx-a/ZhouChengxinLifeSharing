@@ -3,6 +3,7 @@ package com.lifeSharing.service.inter;
 import com.lifeSharing.params.login.*;
 import com.lifeSharing.toolsUtil.MyResult;
 
+
 public interface LoginService {
     //用户注册
     public MyResult registerUser(RegisterParamIn in);
@@ -14,4 +15,6 @@ public interface LoginService {
     public MyResult checkTel(CheckTelParamIn in);
     //用户ID校验
     public MyResult checkUserNO(CheckUserNoParamIn in);
+    //锁定用户
+    public MyResult lockedUserNo(LockedUserNoParamIn in);
 }

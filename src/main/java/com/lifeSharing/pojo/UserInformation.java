@@ -29,6 +29,8 @@ public class UserInformation {
 
     private String photoUrl;
 
+    private String backPhotoUrl;
+
     public String getUserNo() {
         return userNo;
     }
@@ -131,5 +133,13 @@ public class UserInformation {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl == null ? null : photoUrl.trim();
+    }
+
+    public String getBackPhotoUrl() {
+        return backPhotoUrl;
+    }
+
+    public void setBackPhotoUrl(String backPhotoUrl) {
+        this.backPhotoUrl = backPhotoUrl == null ? null : backPhotoUrl.trim();
     }
 }

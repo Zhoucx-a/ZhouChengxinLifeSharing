@@ -375,63 +375,63 @@ public class StoryInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountIsNull() {
-            addCriterion("like_count is null");
+        public Criteria andIsCheckIsNull() {
+            addCriterion("is_check is null");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountIsNotNull() {
-            addCriterion("like_count is not null");
+        public Criteria andIsCheckIsNotNull() {
+            addCriterion("is_check is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountEqualTo(Integer value) {
-            addCriterion("like_count =", value, "likeCount");
+        public Criteria andIsCheckEqualTo(Integer value) {
+            addCriterion("is_check =", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountNotEqualTo(Integer value) {
-            addCriterion("like_count <>", value, "likeCount");
+        public Criteria andIsCheckNotEqualTo(Integer value) {
+            addCriterion("is_check <>", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountGreaterThan(Integer value) {
-            addCriterion("like_count >", value, "likeCount");
+        public Criteria andIsCheckGreaterThan(Integer value) {
+            addCriterion("is_check >", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("like_count >=", value, "likeCount");
+        public Criteria andIsCheckGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_check >=", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountLessThan(Integer value) {
-            addCriterion("like_count <", value, "likeCount");
+        public Criteria andIsCheckLessThan(Integer value) {
+            addCriterion("is_check <", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountLessThanOrEqualTo(Integer value) {
-            addCriterion("like_count <=", value, "likeCount");
+        public Criteria andIsCheckLessThanOrEqualTo(Integer value) {
+            addCriterion("is_check <=", value, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountIn(List<Integer> values) {
-            addCriterion("like_count in", values, "likeCount");
+        public Criteria andIsCheckIn(List<Integer> values) {
+            addCriterion("is_check in", values, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountNotIn(List<Integer> values) {
-            addCriterion("like_count not in", values, "likeCount");
+        public Criteria andIsCheckNotIn(List<Integer> values) {
+            addCriterion("is_check not in", values, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountBetween(Integer value1, Integer value2) {
-            addCriterion("like_count between", value1, value2, "likeCount");
+        public Criteria andIsCheckBetween(Integer value1, Integer value2) {
+            addCriterion("is_check between", value1, value2, "isCheck");
             return (Criteria) this;
         }
 
-        public Criteria andLikeCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("like_count not between", value1, value2, "likeCount");
+        public Criteria andIsCheckNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_check not between", value1, value2, "isCheck");
             return (Criteria) this;
         }
 

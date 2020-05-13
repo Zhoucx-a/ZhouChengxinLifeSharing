@@ -3,7 +3,7 @@ package com.lifeSharing.params.storyManage;
 import lombok.Data;
 
 @Data
-public class PublishStoryReplyParamIn {
+public class PublishStoryReplyTwoParamIn {
     private String commentsCode;
 
     private String replyToId;
